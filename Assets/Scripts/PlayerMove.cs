@@ -59,20 +59,6 @@ public class PlayerMove : MonoBehaviour
             rb.transform.localScale = new Vector2(-0.47f, 1);
         }
     }
-    /*private void RayCheck()
-    {       
-        RaycastHit2D left = Physics2D.Raycast(new Vector2(box.offset.x+footoffset,0), Vector2.down, raydistance, layer);
-        Color color1 = left ? Color.red : Color.green;
-        Debug.DrawRay(new Vector2(box.offset.x + footoffset, 0), Vector2.down,color1);
-        RaycastHit2D right = Physics2D.Raycast(new Vector2(box.offset.x - footoffset, 0), Vector2.down, raydistance, layer);
-        Color color2 = right ? Color.red : Color.green;
-        Debug.DrawRay(new Vector2(box.offset.x - footoffset, 0), Vector2.down, color2);
-        if (left || right)
-        {
-            isonGround = true;
-        }
-        else isonGround = false;
-    }*/
     private void rayCheck()
     {
         isonGround = (Physics2D.Raycast(transform.position + rayWidth, Vector2.down, rayDistance, Groundlayer) || Physics2D.Raycast(transform.position - rayWidth, Vector2.down, rayDistance, Groundlayer));
