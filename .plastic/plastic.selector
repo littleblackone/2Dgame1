@@ -1,0 +1,4 @@
+repository "2Dgame1@ssl://zfantasyz@sh02-plasticscm.unity.cn:8787"
+  path "/"
+    br "/main"
+    co "/main"
