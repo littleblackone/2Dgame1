@@ -317,7 +317,7 @@ Transform:
   m_GameObject: {fileID: 1160618764}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.0364, y: -0.0157, z: 0}
-  m_LocalScale: {x: 0.47347984, y: 1.0324403, z: 1}
+  m_LocalScale: {x: 0.47, y: 1.0324403, z: 1}
   m_Children:
   - {fileID: 1602795825}
   m_Father: {fileID: 0}
@@ -384,8 +384,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 5
   JumpForce: 15
-  footoffset: 0.49
-  raydistance: 0.1
+  Groundlayer:
+    serializedVersion: 2
+    m_Bits: 128
+  isonGround: 0
+  footOffset: 0.49
+  rayDistance: 0.55
+  rayWidth: {x: -0.24, y: 0, z: 0}
 --- !u!1 &1602795824
 GameObject:
   m_ObjectHideFlags: 0

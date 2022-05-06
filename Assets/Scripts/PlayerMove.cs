@@ -9,7 +9,9 @@ public class PlayerMove : MonoBehaviour
     public float JumpForce;
     float xVelocity;
 
-    LayerMask layer;
+    [Header("图层")]
+    public LayerMask Groundlayer;
+
     BoxCollider2D box; 
     Rigidbody2D rb;
 
@@ -17,21 +19,21 @@ public class PlayerMove : MonoBehaviour
     public  bool isonGround;
 
     [Header("射线判断参数")]
-    public float footoffset = 0.49f;
-    public float raydistance;
+    public float footOffset = 0.49f;
+    public float rayDistance;
+    public Vector3 rayWidth;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
-        layer = LayerMask.NameToLayer("Ground");
     }
 
-    
+
     void Update()
     {
-        jump();
-        RayCheck();
+        rayCheck();
+        jump();       
     }
     private void FixedUpdate()
     {
@@ -50,14 +52,14 @@ public class PlayerMove : MonoBehaviour
     {
         if (xVelocity>0)
         {
-            rb.transform.localScale = new Vector2(1, 1);
+            rb.transform.localScale = new Vector2(0.47f, 1);
         }
         if (xVelocity<0)
         {
-            rb.transform.localScale = new Vector2(-1, 1);
+            rb.transform.localScale = new Vector2(-0.47f, 1);
         }
     }
-    private void RayCheck()
+    /*private void RayCheck()
     {       
         RaycastHit2D left = Physics2D.Raycast(new Vector2(box.offset.x+footoffset,0), Vector2.down, raydistance, layer);
         Color color1 = left ? Color.red : Color.green;
@@ -70,5 +72,15 @@ public class PlayerMove : MonoBehaviour
             isonGround = true;
         }
         else isonGround = false;
+    }*/
+    private void rayCheck()
+    {
+        isonGround = (Physics2D.Raycast(transform.position + rayWidth, Vector2.down, rayDistance, Groundlayer) || Physics2D.Raycast(transform.position - rayWidth, Vector2.down, rayDistance, Groundlayer));
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position + rayWidth, transform.position + rayWidth + Vector3.down * rayDistance);//第一个参数是起点，第二个是终点
+        Gizmos.DrawLine(transform.position - rayWidth, transform.position - rayWidth + Vector3.down * rayDistance);     
     }
 }
