@@ -23,13 +23,12 @@ public class PlayerMove : MonoBehaviour
     public float rayDistancenose;
     public Vector3 rayWidthfoot;
     public Vector3 rayWidthnose;
-    public Transform nose;
+    public GameObject nose;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        box = GetComponent<BoxCollider2D>();
-        nose = GetComponentInChildren<Transform>();
+        box = GetComponent<BoxCollider2D>();    
     }
 
 
@@ -55,22 +54,29 @@ public class PlayerMove : MonoBehaviour
     {
         if (xVelocity>0)
         {
-            rb.transform.localScale = new Vector2(0.47f, 1);
+            rb.transform.localScale = new Vector2(0.34f, 1);
         }
         if (xVelocity<0)
         {
-            rb.transform.localScale = new Vector2(-0.47f, 1);
+            rb.transform.localScale = new Vector2(-0.34f, 1);
         }
     }
     private void rayCheck()
     {
-        isonGround = (Physics2D.Raycast(transform.position + rayWidthfoot, Vector2.down, rayDistancefoot, Groundlayer) || Physics2D.Raycast(transform.position - rayWidthfoot, Vector2.down, rayDistancefoot, Groundlayer)|| Physics2D.Raycast(nose.position - rayWidthnose, Vector2.down, rayDistancenose, Groundlayer));
+        isonGround = (Physics2D.Raycast(transform.position + rayWidthfoot, Vector2.down, rayDistancefoot, Groundlayer) || Physics2D.Raycast(transform.position - rayWidthfoot, Vector2.down, rayDistancefoot, Groundlayer)||Physics2D.Raycast(nose.transform.position + rayWidthnose, Vector2.down, rayDistancenose, Groundlayer)|| Physics2D.Raycast(nose.transform.position - rayWidthnose, Vector2.down, rayDistancenose, Groundlayer));     
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position + rayWidthfoot, transform.position + rayWidthfoot + Vector3.down * rayDistancefoot);//第一个参数是起点，第二个是终点
         Gizmos.DrawLine(transform.position - rayWidthfoot, transform.position - rayWidthfoot + Vector3.down * rayDistancefoot);
-        Gizmos.DrawLine(nose.position - rayWidthnose, nose.position - rayWidthnose + Vector3.down * rayDistancenose);
+        if (rb.transform.localScale.x > 0)
+        {
+            Gizmos.DrawLine(nose.transform.position - rayWidthnose, nose.transform.position - rayWidthnose + Vector3.down * rayDistancenose);
+        }
+        if (rb.transform.localScale.x < 0)
+        {
+            Gizmos.DrawLine(nose.transform.position + rayWidthnose, nose.transform.position + rayWidthnose + Vector3.down * rayDistancenose);
+        }
     }
 }
