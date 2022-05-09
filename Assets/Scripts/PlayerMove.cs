@@ -19,14 +19,17 @@ public class PlayerMove : MonoBehaviour
     public  bool isonGround;
 
     [Header("射线判断参数")]
-    public float footOffset = 0.49f;
-    public float rayDistance;
-    public Vector3 rayWidth;
+    public float rayDistancefoot;
+    public float rayDistancenose;
+    public Vector3 rayWidthfoot;
+    public Vector3 rayWidthnose;
+    public Transform nose;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
+        nose = GetComponentInChildren<Transform>();
     }
 
 
@@ -61,12 +64,13 @@ public class PlayerMove : MonoBehaviour
     }
     private void rayCheck()
     {
-        isonGround = (Physics2D.Raycast(transform.position + rayWidth, Vector2.down, rayDistance, Groundlayer) || Physics2D.Raycast(transform.position - rayWidth, Vector2.down, rayDistance, Groundlayer));
+        isonGround = (Physics2D.Raycast(transform.position + rayWidthfoot, Vector2.down, rayDistancefoot, Groundlayer) || Physics2D.Raycast(transform.position - rayWidthfoot, Vector2.down, rayDistancefoot, Groundlayer)|| Physics2D.Raycast(nose.position - rayWidthnose, Vector2.down, rayDistancenose, Groundlayer));
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position + rayWidth, transform.position + rayWidth + Vector3.down * rayDistance);//第一个参数是起点，第二个是终点
-        Gizmos.DrawLine(transform.position - rayWidth, transform.position - rayWidth + Vector3.down * rayDistance);     
+        Gizmos.DrawLine(transform.position + rayWidthfoot, transform.position + rayWidthfoot + Vector3.down * rayDistancefoot);//第一个参数是起点，第二个是终点
+        Gizmos.DrawLine(transform.position - rayWidthfoot, transform.position - rayWidthfoot + Vector3.down * rayDistancefoot);
+        Gizmos.DrawLine(nose.position - rayWidthnose, nose.position - rayWidthnose + Vector3.down * rayDistancenose);
     }
 }
